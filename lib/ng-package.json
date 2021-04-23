@@ -1,0 +1,11 @@
+{
+  "$schema": "./node_modules/ng-packagr/ng-package.schema.json",
+  "lib": {
+    "entryFile": "src/public_api.ts",
+     "umdModuleIds": {
+      "tns-core-modules/platform": "tns-core-modules/platform",
+      "tns-core-modules/ui/page": "tns-core-modules/ui/page"
+    }
+  },
+  "dest": "../dist/"
+}

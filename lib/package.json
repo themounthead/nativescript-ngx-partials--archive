@@ -1,0 +1,22 @@
+{
+  "name": "nativescript-ngx-partials",
+  "version": "1.0.0",
+  "description": "NativeScript + Angular Template Partials Library",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/themounthead/ngn-partials"
+  },
+  "nativescript": {
+    "platforms": {
+      "android": "6.5.4",
+      "ios": "6.5.3"
+    }
+  },
+  "author": "TheMountHead",
+  "license": "MIT",
+  "private": false,
+  "peerDependencies": {
+    "@angular/compiler": "~8.2.0",
+    "@angular/core": "~8.2.0"
+  }
+}

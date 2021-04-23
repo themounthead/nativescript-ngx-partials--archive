@@ -1,0 +1,243 @@
+<ng-container *ngIf="header === 'fixed' && footer == 'fixed'">
+  <ng-container *ngTemplateOutlet="layoutFxFxOutlet"></ng-container>
+</ng-container>
+<ng-container *ngIf="header === 'fixed' && footer === 'flow'">
+  <ng-container *ngTemplateOutlet="layoutFxFwOutlet"></ng-container>
+</ng-container>
+<ng-container *ngIf="header === 'fixed' && footer === 'float'">
+  <ng-container *ngTemplateOutlet="layoutFxFtOutlet"></ng-container>
+</ng-container>
+<ng-container *ngIf="header === 'flow' && footer === 'fixed'">
+  <ng-container *ngTemplateOutlet="layoutFwFxOutlet"></ng-container>
+</ng-container>
+<ng-container *ngIf="header === 'flow' && footer === 'flow'">
+  <ng-container *ngTemplateOutlet="layoutFwFwOutlet"></ng-container>
+</ng-container>
+<ng-container *ngIf="header === 'flow' && footer === 'float'">
+  <ng-container *ngTemplateOutlet="layoutFwFtOutlet"></ng-container>
+</ng-container>
+<ng-container *ngIf="header === 'float' && footer === 'fixed'">
+  <ng-container *ngTemplateOutlet="layoutFtFxOutlet"></ng-container>
+</ng-container>
+<ng-container *ngIf="header === 'float' && footer === 'flow'">
+  <ng-container *ngTemplateOutlet="layoutFtFwOutlet"></ng-container>
+</ng-container>
+<ng-container *ngIf="header === 'float' && footer === 'float'">
+  <ng-container *ngTemplateOutlet="layoutFtFtOutlet"></ng-container>
+</ng-container>
+
+<ng-template #headerOutlet>
+  <ng-content select="[page-header]"></ng-content>
+</ng-template>
+
+<ng-template #contentOutlet>
+  <ng-content select="[page-content]"></ng-content>
+</ng-template>
+
+<ng-template #footerOutlet>
+  <ng-content select="[page-footer]"></ng-content>
+</ng-template>
+
+<ng-template #toolbarOutlet>
+  <ng-content select="[page-toolbar]"></ng-content>
+</ng-template>
+
+<!-- header: fixed, footer: fixed -->
+<ng-template #layoutFxFxOutlet>
+  <DockLayout ngx-partial-page stretchLastChild="false">
+    <StackLayout #footerView dock="bottom" (loaded)="footerReadyEmitter.emit($event)">
+      <ng-container *ngTemplateOutlet="footerOutlet"></ng-container>
+    </StackLayout>
+    <StackLayout #headerView dock="top" (loaded)="headerReadyEmitter.emit($event)">
+      <ng-container *ngTemplateOutlet="headerOutlet"></ng-container>
+    </StackLayout>
+    <GridLayout #contentView dock="top">
+      <ScrollView #scrollView>
+        <ng-container *ngTemplateOutlet="contentOutlet"></ng-container>
+      </ScrollView>
+      <StackLayout [verticalAlignment]="toolbarVAlign" [horizontalAlignment]="toolbarHAlign">
+        <ng-container *ngTemplateOutlet="toolbarOutlet"></ng-container>
+      </StackLayout>
+    </GridLayout>
+  </DockLayout>
+</ng-template>
+
+<!-- header: fixed, footer: flow -->
+<ng-template #layoutFxFwOutlet>
+  <DockLayout ngx-partial-page stretchLastChild="false">
+    <StackLayout #headerView dock="top" (loaded)="headerReadyEmitter.emit($event)">
+      <ng-container *ngTemplateOutlet="headerOutlet"></ng-container>
+    </StackLayout>
+    <GridLayout dock="bottom">
+      <ScrollView #scrollView>
+        <StackLayout>
+          <StackLayout #contentView verticalAlignment="top">
+            <ng-container *ngTemplateOutlet="contentOutlet"></ng-container>
+          </StackLayout>
+          <StackLayout #footerView (loaded)="footerReadyEmitter.emit($event)">
+            <ng-container *ngTemplateOutlet="footerOutlet"></ng-container>
+          </StackLayout>
+        </StackLayout>
+      </ScrollView>
+      <StackLayout [verticalAlignment]="toolbarVAlign" [horizontalAlignment]="toolbarHAlign">
+        <ng-container *ngTemplateOutlet="toolbarOutlet"></ng-container>
+      </StackLayout>
+    </GridLayout>
+  </DockLayout>
+</ng-template>
+
+<!-- header: fixed, footer: float -->
+<ng-template #layoutFxFtOutlet>
+  <DockLayout ngx-partial-page stretchLastChild="false">
+    <StackLayout #headerView dock="top" (loaded)="headerReadyEmitter.emit($event)">
+      <ng-container *ngTemplateOutlet="headerOutlet"></ng-container>
+    </StackLayout>
+    <GridLayout dock="bottom">
+      <ScrollView #scrollView>
+        <StackLayout #contentView>
+          <ng-container *ngTemplateOutlet="contentOutlet"></ng-container>
+        </StackLayout>
+      </ScrollView>
+      <StackLayout #footerView verticalAlignment="bottom" (loaded)="footerReadyEmitter.emit($event)">
+        <ng-container *ngTemplateOutlet="footerOutlet"></ng-container>
+      </StackLayout>
+      <StackLayout [verticalAlignment]="toolbarVAlign" [horizontalAlignment]="toolbarHAlign">
+        <ng-container *ngTemplateOutlet="toolbarOutlet"></ng-container>
+      </StackLayout>
+    </GridLayout>
+  </DockLayout>
+</ng-template>
+
+<!-- header: flow, footer: fixed -->
+<ng-template #layoutFwFxOutlet>
+  <DockLayout ngx-partial-page stretchLastChild="false">
+    <StackLayout dock="bottom" #footerView (loaded)="footerReadyEmitter.emit($event)">
+      <ng-container *ngTemplateOutlet="footerOutlet"></ng-container>
+    </StackLayout>
+    <GridLayout #contentView dock="top" class="">
+      <ScrollView #scrollView verticalAlignment="top">
+        <StackLayout>
+          <StackLayout #headerView (loaded)="headerReadyEmitter.emit($event)">
+            <ng-container *ngTemplateOutlet="headerOutlet"></ng-container>
+          </StackLayout>
+          <StackLayout>
+            <ng-container *ngTemplateOutlet="contentOutlet"></ng-container>
+          </StackLayout>
+        </StackLayout>
+      </ScrollView>
+      <StackLayout [verticalAlignment]="toolbarVAlign" [horizontalAlignment]="toolbarHAlign">
+        <ng-container *ngTemplateOutlet="toolbarOutlet"></ng-container>
+      </StackLayout>
+    </GridLayout>
+  </DockLayout>
+</ng-template>
+
+<!-- header: flow, footer: flow -->
+<ng-template #layoutFwFwOutlet>
+  <GridLayout ngx-partial-page>
+    <ScrollView #scrollView>
+      <StackLayout>
+        <StackLayout #headerView (loaded)="headerReadyEmitter.emit($event)">
+          <ng-container *ngTemplateOutlet="headerOutlet"></ng-container>
+        </StackLayout>
+        <StackLayout #contentView>
+          <ng-container *ngTemplateOutlet="contentOutlet"></ng-container>
+        </StackLayout>
+        <StackLayout #footerView (loaded)="footerReadyEmitter.emit($event)">
+          <ng-container *ngTemplateOutlet="footerOutlet"></ng-container>
+        </StackLayout>
+      </StackLayout>
+    </ScrollView>
+    <StackLayout [verticalAlignment]="toolbarVAlign" [horizontalAlignment]="toolbarHAlign">
+      <ng-container *ngTemplateOutlet="toolbarOutlet"></ng-container>
+    </StackLayout>
+  </GridLayout>
+</ng-template>
+
+<!-- header: flow, footer: float -->
+<ng-template #layoutFwFtOutlet>
+  <GridLayout ngx-partial-page>
+    <ScrollView #scrollView>
+      <StackLayout>
+        <StackLayout #headerView (loaded)="headerReadyEmitter.emit($event)">
+          <ng-container *ngTemplateOutlet="headerOutlet"></ng-container>
+        </StackLayout>
+        <StackLayout #contentView>
+          <ng-container *ngTemplateOutlet="contentOutlet"></ng-container>
+        </StackLayout>
+      </StackLayout>
+    </ScrollView>
+    <StackLayout #footerView verticalAlignment="bottom" (loaded)="footerReadyEmitter.emit($event)">
+      <ng-container *ngTemplateOutlet="footerOutlet"></ng-container>
+    </StackLayout>
+    <StackLayout [verticalAlignment]="toolbarVAlign" [horizontalAlignment]="toolbarHAlign">
+      <ng-container *ngTemplateOutlet="toolbarOutlet"></ng-container>
+    </StackLayout>
+  </GridLayout>
+</ng-template>
+
+<!-- header: float, footer: fixed -->
+<ng-template #layoutFtFxOutlet>
+  <DockLayout ngx-partial-page stretchLastChild="false">
+    <StackLayout #footerView dock="bottom" (loaded)="footerReadyEmitter.emit($event)">
+      <ng-container *ngTemplateOutlet="footerOutlet"></ng-container>
+    </StackLayout>
+    <GridLayout dock="top">
+      <StackLayout #headerView verticalAlignment="top" (loaded)="headerReadyEmitter.emit($event)">
+        <ng-container *ngTemplateOutlet="headerOutlet"></ng-container>
+      </StackLayout>
+      <GridLayout #contentView>
+        <ScrollView #scrollView verticalAlignment="top">
+          <ng-container *ngTemplateOutlet="contentOutlet"></ng-container>
+        </ScrollView>
+        <StackLayout [verticalAlignment]="toolbarVAlign" [horizontalAlignment]="toolbarHAlign">
+          <ng-container *ngTemplateOutlet="toolbarOutlet"></ng-container>
+        </StackLayout>
+      </GridLayout>
+    </GridLayout>
+  </DockLayout>
+</ng-template>
+
+<!-- header: float, footer: flow -->
+<ng-template #layoutFtFwOutlet>
+  <GridLayout ngx-partial-page>
+    <StackLayout #headerView verticalAlignment="top" (loaded)="headerReadyEmitter.emit($event)">
+      <ng-container *ngTemplateOutlet="headerOutlet"></ng-container>
+    </StackLayout>
+    <GridLayout>
+      <ScrollView #scrollView>
+        <StackLayout>
+          <StackLayout #contentView>
+            <ng-container *ngTemplateOutlet="contentOutlet"></ng-container>
+          </StackLayout>
+          <StackLayout #footerView (loaded)="footerReadyEmitter.emit($event)">
+            <ng-container *ngTemplateOutlet="footerOutlet"></ng-container>
+          </StackLayout>
+        </StackLayout>
+      </ScrollView>
+      <StackLayout [verticalAlignment]="toolbarVAlign" [horizontalAlignment]="toolbarHAlign">
+        <ng-container *ngTemplateOutlet="toolbarOutlet"></ng-container>
+      </StackLayout>
+    </GridLayout>
+  </GridLayout>
+</ng-template>
+
+<!-- header: float, footer: float -->
+<ng-template #layoutFtFtOutlet>
+  <GridLayout ngx-partial-page>
+    <StackLayout #headerView verticalAlignment="top" (loaded)="headerReadyEmitter.emit($event)">
+      <ng-container *ngTemplateOutlet="headerOutlet"></ng-container>
+    </StackLayout>
+    <ScrollView #scrollView>
+      <StackLayout #contentView>
+        <ng-container *ngTemplateOutlet="contentOutlet"></ng-container>
+      </StackLayout>
+    </ScrollView>
+    <StackLayout #footerView verticalAlignment="bottom" (loaded)="footerReadyEmitter.emit($event)">
+      <ng-container *ngTemplateOutlet="footerOutlet"></ng-container>
+    </StackLayout>
+    <StackLayout [verticalAlignment]="toolbarVAlign" [horizontalAlignment]="toolbarHAlign">
+      <ng-container *ngTemplateOutlet="toolbarOutlet"></ng-container>
+    </StackLayout>
+  </GridLayout>
+</ng-template>

@@ -1,0 +1,16 @@
+<ng-container>
+  <FlexboxLayout
+    [ngClass]="debugClass"
+    [width]="width"
+    [height]="height"
+    flexDirection="row"
+    [alignItems]="alignItems"
+    [justifyContent]="justifyContent"
+    [padding]="padding"
+    [margin]="margin"
+  >
+    <ng-content select="[panel-left]"></ng-content>
+    <ng-content select="[panel-middle]"></ng-content>
+    <ng-content select="[panel-right]"></ng-content>
+  </FlexboxLayout>
+</ng-container>

@@ -1,6 +1,22 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<StackLayout>
-  <Label text="Tap the button"></Label>
-  <Button text="TAP" (tap)="onTap()"></Button>
-  <Label [text]="getMessage()" textWrap="true"></Label>
-</StackLayout>
+<ActionBar height="0"></ActionBar>
+<ngx-page header="flow" footer="fixed" toolbar="center-right">
+  <ngx-row-panel page-header height="80" justifyContent="space-around">
+    <Label text="Header" panel-left></Label>
+    <Label text="Header" panel-middle></Label>
+    <Label text="Header" panel-right></Label>
+  </ngx-row-panel>
+  <ngx-col-panel page-content height="900" debug>
+    <Label text="Content1" panel-top></Label>
+    <Label text="Content2" panel-bottom></Label>
+  </ngx-col-panel>
+  <ngx-row-panel page-footer debug height="75">
+    <Label text="Test" panel-left></Label>
+    <ngx-col-panel panel-right width="80" debug>
+      <Label panel-top text="A"></Label>
+      <Label panel-bottom text="B"></Label>
+    </ngx-col-panel>
+  </ngx-row-panel>
+  <ngx-row-panel page-toolbar width="70" height="70" debug>
+    <Label text="FAB" panel-left></Label>
+  </ngx-row-panel>
+</ngx-page>
