@@ -9,7 +9,7 @@ A Nativescript Angular module to quickly create Pages and Layout fragments
 
 Import the module into your _app-module_ 
 
-`
+```
 import { PartialsModule, RowPanel, ColPanel } from 'ngx-partials';
 
 import { registerElement } from 'nativescript-angular/element-registry';
@@ -17,7 +17,7 @@ import { registerElement } from 'nativescript-angular/element-registry';
 registerElement('RowPanel', () => RowPanel);
 registerElement('ColPanel', () => ColPanel);
 
-`
+```
 
 ## Getting Started
 
@@ -44,7 +44,7 @@ The Panel is a NativeScript Flex-box layout view that simplifies the process of 
 
 ### Row
 
-`RowPanel`
+#### RowPanel
 
 The _RowPanel_ has the following nested containers:
 - panel-left
@@ -53,7 +53,7 @@ The _RowPanel_ has the following nested containers:
 
 ### Col
 
-`ColPanel`
+#### ColPanel
 
 The _ColPanel_ has the following nested containers:
 - panel-top
