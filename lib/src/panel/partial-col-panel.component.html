@@ -1,14 +1,5 @@
 <ng-container>
-  <FlexboxLayout
-    [ngClass]="debugClass"
-    [width]="width"
-    [height]="height"
-    flexDirection="column"
-    [alignItems]="alignItems"
-    [justifyContent]="justifyContent"
-  >
-    <ng-content select="[panel-top]"></ng-content>
-    <ng-content select="[panel-middle]"></ng-content>
-    <ng-content select="[panel-bottom]"></ng-content>
-  </FlexboxLayout>
+  <ng-content select="[panel-top]"></ng-content>
+  <ng-content select="[panel-middle]"></ng-content>
+  <ng-content select="[panel-bottom]"></ng-content>
 </ng-container>

@@ -1,11 +1,10 @@
 import { Component, Directive, ContentChild, Optional, AfterViewInit, ElementRef } from '@angular/core';
 
-import { PartialPageMixin } from './partial-page.mixin';
+import { PartialPage } from './partial-page';
 
 @Component({
-  selector: 'ngx-page',
+  selector: 'Page',
   templateUrl: './partial-page.component.html',
   styleUrls: ['../partial-component.scss'],
 })
-export class PartialPageComponent extends PartialPageMixin { }
-
+export class PartialPageComponent extends PartialPage { }

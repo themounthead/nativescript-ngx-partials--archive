@@ -37,10 +37,11 @@ export class ActionBarQueryDirective {
 }
 
 @Directive({
-  selector: '[ngx-partial-page]',
+  selector: '[partial-page]',
 })
 export class PartialPageComponentDirective implements AfterViewInit {
 
+  @ContentChild('pageView', { read: ElementRef, static: false }) pageView: ElementRef;
   @ContentChild('scrollView', { read: ElementRef, static: false }) scrollView: ElementRef;
   @ContentChild('contentView', { read: ElementRef, static: false }) contentView: ElementRef;
   @ContentChild('headerView', { read: ElementRef, static: false }) headerView: ElementRef;
@@ -62,37 +63,48 @@ export class PartialPageComponentDirective implements AfterViewInit {
       .pipe(
         tap(),
         combineLatest(this.pageComponent.footerReadyEmitter),
+        combineLatest(this.pageComponent.pageReadyEmitter),
       )
-      .subscribe(([headerEvt, footerEvt]) => {
-        const actionBar = this.actionBarService.getActionBar();
-        if (actionBar) {
-          actionBar.on('loaded', evt => setTimeout(() => { this.onViewsLoaded(actionBarEvt, headerEvt, footerEvt); }, 100));
-        } else {
-          setTimeout(() => this.onViewsLoaded(actionBarEvt, headerEvt, footerEvt), 100);
-        }
+      .subscribe(([[headerEvt, footerEvt], pageEvt]) => {
+        // const actionBar = this.actionBarService.getActionBar();
+        // if (actionBar) {
+        //   actionBar.on('loaded', evt => setTimeout(() => { this.onViewsLoaded(actionBarEvt, headerEvt, footerEvt); }, 100));
+        // } else {
+        //   setTimeout(() => this.onViewsLoaded(actionBarEvt, headerEvt, footerEvt), 100);
+        // }
+        setTimeout(() => this.onViewsLoaded(pageEvt, headerEvt, footerEvt), 100);
       });
   }
 
-  private onViewsLoaded(actionBarEvt, headerEvt, footerEvt) {
+  private onViewsLoaded(pageEvt, headerEvt, footerEvt) {
     if (!this.scrollView || !this.contentView) { return; }
     const headerState = this.pageComponent.header;
     const footerState = this.pageComponent.footer;
-    const actionBar = (actionBarEvt) ? <StackLayout>actionBarEvt.object : null;
+    // const actionBar = (actionBarEvt) ? <StackLayout>actionBarEvt.object : null;
+    const pageView = (pageEvt) ? <StackLayout>pageEvt.object : null;
     const headerView = (headerEvt) ? <StackLayout>headerEvt.object : null;
     const footerView = (footerEvt) ? <StackLayout>footerEvt.object : null;
     const contentView = <StackLayout>this.contentView.nativeElement;
     const scrollView = <StackLayout>this.scrollView.nativeElement;
     const scale = screen.mainScreen.scale;
-    const pageHeight = this.page.getMeasuredHeight() / scale;
-    const actionBarHeight = (actionBar) ? actionBar.getMeasuredHeight() / scale : 0;
+
+    // const pageHeight = this.page.getMeasuredHeight() / scale;
+    // const actionBarHeight = (actionBar) ? actionBar.getMeasuredHeight() / scale : 0;
+    const pageHeight = pageView.getMeasuredHeight() / scale;
     const headerHeight = (headerView) ? headerView.getMeasuredHeight() / scale : 0;
     const footerHeight = (footerView) ? footerView.getMeasuredHeight() / scale : 0;
-    let scrollHeight = pageHeight - (actionBarHeight + headerHeight + footerHeight);
+    let scrollHeight = pageHeight - (headerHeight + footerHeight);
     scrollHeight = (isIOS) ? scrollHeight + IOS_NOTCH_OFFSET : scrollHeight;
     const contentHeight = scrollHeight + headerHeight;
 
+    if (this.pageComponent.height) { pageView.height = this.pageComponent.height; }
+    if (this.pageComponent.width) { pageView.width = this.pageComponent.width; }
+    if (this.pageComponent.padding) { pageView.padding = this.pageComponent.padding; }
+    if (this.pageComponent.margin) { pageView.margin = this.pageComponent.margin; }
+
+
     if (this.pageComponent.isDebug) {
-      console.dir({ actionBarHeight, headerHeight, footerHeight, pageHeight, scrollHeight, contentHeight });
+      console.dir({ headerHeight, footerHeight, pageHeight, scrollHeight, contentHeight });
       this.markViewDebug();
     }
 

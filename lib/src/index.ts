@@ -1,2 +1,1 @@
-export { NgxPartialsModule } from './ngx-partials.module';
-
+export { PartialsModule } from './partials.module';

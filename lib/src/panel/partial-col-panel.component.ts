@@ -1,11 +1,17 @@
 import { Component } from '@angular/core';
 
-import { PartialPanelMixin } from './partial-panel.mixin';
+import { PartialPanelLayout } from './partial-panel';
 
 @Component({
-  selector: 'ngx-col-panel',
+  selector: 'ColPanel',
   templateUrl: './partial-col-panel.component.html',
   styleUrls: ['../partial-component.scss'],
 })
-export class PartialColPanelComponent extends PartialPanelMixin { }
+export class PartialColPanelComponent extends PartialPanelLayout {
 
+  constructor() {
+    super();
+    this.flexDirection = 'column';
+  }
+
+}

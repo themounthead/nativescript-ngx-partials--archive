@@ -44,7 +44,7 @@
 
 <!-- header: fixed, footer: fixed -->
 <ng-template #layoutFxFxOutlet>
-  <DockLayout ngx-partial-page stretchLastChild="false">
+  <DockLayout #pageView partial-page stretchLastChild="false" (loaded)="pageReadyEmitter.emit($event)">
     <StackLayout #footerView dock="bottom" (loaded)="footerReadyEmitter.emit($event)">
       <ng-container *ngTemplateOutlet="footerOutlet"></ng-container>
     </StackLayout>
@@ -64,7 +64,7 @@
 
 <!-- header: fixed, footer: flow -->
 <ng-template #layoutFxFwOutlet>
-  <DockLayout ngx-partial-page stretchLastChild="false">
+  <DockLayout #pageView partial-page stretchLastChild="false" (loaded)="pageReadyEmitter.emit($event)">
     <StackLayout #headerView dock="top" (loaded)="headerReadyEmitter.emit($event)">
       <ng-container *ngTemplateOutlet="headerOutlet"></ng-container>
     </StackLayout>
@@ -88,7 +88,7 @@
 
 <!-- header: fixed, footer: float -->
 <ng-template #layoutFxFtOutlet>
-  <DockLayout ngx-partial-page stretchLastChild="false">
+  <DockLayout #pageView partial-page stretchLastChild="false" (loaded)="pageReadyEmitter.emit($event)">
     <StackLayout #headerView dock="top" (loaded)="headerReadyEmitter.emit($event)">
       <ng-container *ngTemplateOutlet="headerOutlet"></ng-container>
     </StackLayout>
@@ -110,7 +110,7 @@
 
 <!-- header: flow, footer: fixed -->
 <ng-template #layoutFwFxOutlet>
-  <DockLayout ngx-partial-page stretchLastChild="false">
+  <DockLayout #pageView partial-page stretchLastChild="false" (loaded)="pageReadyEmitter.emit($event)">
     <StackLayout dock="bottom" #footerView (loaded)="footerReadyEmitter.emit($event)">
       <ng-container *ngTemplateOutlet="footerOutlet"></ng-container>
     </StackLayout>
@@ -134,7 +134,7 @@
 
 <!-- header: flow, footer: flow -->
 <ng-template #layoutFwFwOutlet>
-  <GridLayout ngx-partial-page>
+  <GridLayout #pageView partial-page (loaded)="pageReadyEmitter.emit($event)">
     <ScrollView #scrollView>
       <StackLayout>
         <StackLayout #headerView (loaded)="headerReadyEmitter.emit($event)">
@@ -156,7 +156,7 @@
 
 <!-- header: flow, footer: float -->
 <ng-template #layoutFwFtOutlet>
-  <GridLayout ngx-partial-page>
+  <GridLayout #pageView partial-page (loaded)="pageReadyEmitter.emit($event)">
     <ScrollView #scrollView>
       <StackLayout>
         <StackLayout #headerView (loaded)="headerReadyEmitter.emit($event)">
@@ -178,7 +178,7 @@
 
 <!-- header: float, footer: fixed -->
 <ng-template #layoutFtFxOutlet>
-  <DockLayout ngx-partial-page stretchLastChild="false">
+  <DockLayout #pageView partial-page stretchLastChild="false" (loaded)="pageReadyEmitter.emit($event)">
     <StackLayout #footerView dock="bottom" (loaded)="footerReadyEmitter.emit($event)">
       <ng-container *ngTemplateOutlet="footerOutlet"></ng-container>
     </StackLayout>
@@ -200,7 +200,7 @@
 
 <!-- header: float, footer: flow -->
 <ng-template #layoutFtFwOutlet>
-  <GridLayout ngx-partial-page>
+  <GridLayout #pageView partial-page (loaded)="pageReadyEmitter.emit($event)">
     <StackLayout #headerView verticalAlignment="top" (loaded)="headerReadyEmitter.emit($event)">
       <ng-container *ngTemplateOutlet="headerOutlet"></ng-container>
     </StackLayout>
@@ -224,7 +224,7 @@
 
 <!-- header: float, footer: float -->
 <ng-template #layoutFtFtOutlet>
-  <GridLayout ngx-partial-page>
+  <GridLayout #pageView partial-page (loaded)="pageReadyEmitter.emit($event)">
     <StackLayout #headerView verticalAlignment="top" (loaded)="headerReadyEmitter.emit($event)">
       <ng-container *ngTemplateOutlet="headerOutlet"></ng-container>
     </StackLayout>

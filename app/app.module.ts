@@ -6,7 +6,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 
-import { NgxPartialsModule } from 'ngx-partials';
+import { PartialsModule, RowPanel, ColPanel } from 'ngx-partials';
+
+import { registerElement } from 'nativescript-angular/element-registry';
+
+registerElement('RowPanel', () => RowPanel);
+registerElement('ColPanel', () => ColPanel);
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
 // import { NativeScriptFormsModule } from 'nativescript-angular/forms';
@@ -23,7 +28,7 @@ import { NgxPartialsModule } from 'ngx-partials';
       NativeScriptModule,
       NativeScriptCommonModule,
       AppRoutingModule,
-      NgxPartialsModule,
+      PartialsModule,
   ],
   bootstrap: [AppComponent],
   schemas: [NO_ERRORS_SCHEMA],

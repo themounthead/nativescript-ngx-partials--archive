@@ -6,7 +6,8 @@
     "id": "org.nativescript.nativescriptngxpartials"
   },
   "scripts": {
-    "packagr": "ng-packagr -p ./lib/ng-package.json && cp README.md ./dist && cp LICENSE.md ./dist"
+    "packagr": "ng-packagr -p ./lib/ng-package.json && cp README.md ./dist && cp LICENSE.md ./dist",
+    "publish": "cd ./dist && npm publish"
   },
   "dependencies": {
     "@angular/animations": "~8.2.0",
@@ -37,6 +38,7 @@
     "nativescript-dev-webpack": "~1.4.0",
     "ng-packagr": "^11.2.4",
     "node-sass": "^4.7.1",
+    "tns-platform-declarations": "^6.5.15",
     "tslint": "^6.1.3",
     "typescript": "~3.5.3"
   }

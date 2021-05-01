@@ -1,22 +1,22 @@
 <ActionBar height="0"></ActionBar>
-<ngx-page header="flow" footer="fixed" toolbar="center-right">
-  <ngx-row-panel page-header height="80" justifyContent="space-around">
+<Page header="fixed" footer="flow" toolbar="center-right">
+  <RowPanel page-header height="80" justifyContent="space-around" alignItems="center">
     <Label text="Header" panel-left></Label>
     <Label text="Header" panel-middle></Label>
     <Label text="Header" panel-right></Label>
-  </ngx-row-panel>
-  <ngx-col-panel page-content height="900" debug>
+  </RowPanel>
+  <ColPanel page-content height="900">
     <Label text="Content1" panel-top></Label>
     <Label text="Content2" panel-bottom></Label>
-  </ngx-col-panel>
-  <ngx-row-panel page-footer debug height="75">
+  </ColPanel>
+  <RowPanel page-footer debug height="75">
     <Label text="Test" panel-left></Label>
-    <ngx-col-panel panel-right width="80" debug>
+    <ColPanel panel-right width="80" debug>
       <Label panel-top text="A"></Label>
       <Label panel-bottom text="B"></Label>
-    </ngx-col-panel>
-  </ngx-row-panel>
-  <ngx-row-panel page-toolbar width="70" height="70" debug>
+    </ColPanel>
+  </RowPanel>
+  <RowPanel page-toolbar width="70" height="70" debug>
     <Label text="FAB" panel-left></Label>
-  </ngx-row-panel>
-</ngx-page>
+  </RowPanel>
+</Page>
