@@ -3,6 +3,7 @@
   "lib": {
     "entryFile": "src/public_api.ts",
      "umdModuleIds": {
+      "nativescript-angular/element-registry": "nativescript-angular/element-registry",
       "tns-core-modules/platform": "tns-core-modules/platform",
       "tns-core-modules/ui/page": "tns-core-modules/ui/page",
       "tns-core-modules/ui/layouts/flexbox-layout": "tns-core-modules/ui/layouts/flexbox-layout"

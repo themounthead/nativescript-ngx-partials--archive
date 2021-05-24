@@ -10,7 +10,7 @@ A Nativescript Angular module to quickly create Pages and Layout fragments
 Import the module into your _app-module_ 
 
 ```
-import { PartialsModule } from 'ngx-partials';
+import { PartialsModule } from 'nativescript-ngx-partials';
 
 ```
 

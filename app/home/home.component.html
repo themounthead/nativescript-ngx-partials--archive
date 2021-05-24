@@ -1,13 +1,14 @@
 <ActionBar height="0"></ActionBar>
-<Page header="fixed" footer="flow" toolbar="center-right">
+<Page header="fixed" footer="flow" toolbar="center-right" debug>
   <RowPanel page-header height="80" justifyContent="space-around" alignItems="center">
     <Label text="Header" panel-left></Label>
     <Label text="Header" panel-middle></Label>
     <Label text="Header" panel-right></Label>
   </RowPanel>
   <ColPanel page-content height="900">
-    <Label text="Content1" panel-top></Label>
-    <Label text="Content2" panel-bottom></Label>
+    <Label height="180" text="Content1" panel-top></Label>
+    <Label height="180" text="Content2" panel-top></Label>
+    <Label height="180" text="Content3" panel-bottom></Label>
   </ColPanel>
   <RowPanel page-footer debug height="75">
     <Label text="Test" panel-left></Label>
