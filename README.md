@@ -10,12 +10,7 @@ A Nativescript Angular module to quickly create Pages and Layout fragments
 Import the module into your _app-module_ 
 
 ```
-import { PartialsModule, RowPanel, ColPanel } from 'ngx-partials';
-
-import { registerElement } from 'nativescript-angular/element-registry';
-
-registerElement('RowPanel', () => RowPanel);
-registerElement('ColPanel', () => ColPanel);
+import { PartialsModule } from 'ngx-partials';
 
 ```
 
@@ -40,7 +35,7 @@ The _Page_ has the following options:
 
 The Panel is a NativeScript Flex-box layout view that simplifies the process of nested elements by using row and column tags
 
-| You can add the native Flexbox css styles to the Row/Col Panel 
+> You can add the native Flexbox css styles to the Row/Col Panel 
 
 ### Row
 

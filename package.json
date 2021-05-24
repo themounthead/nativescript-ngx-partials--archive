@@ -19,7 +19,7 @@
     "@angular/platform-browser": "~8.2.0",
     "@angular/platform-browser-dynamic": "~8.2.0",
     "@angular/router": "~8.2.0",
-    "ngx-partials": "file:./lib/",
+    "nativescript-ngx-partials": "file:./lib/",
     "nativescript-angular": "~8.20.0",
     "reflect-metadata": "~0.1.12",
     "rxjs": "~6.4.0",
