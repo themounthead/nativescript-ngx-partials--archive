@@ -1,8 +1,8 @@
 import { Input } from '@angular/core';
 
-import { FlexboxLayout } from 'tns-core-modules/ui/layouts/flexbox-layout';
+import { GridLayout } from 'tns-core-modules/ui/layouts/grid-layout';
 
-export class PartialPanelLayout extends FlexboxLayout {
+export class PartialGridPanelLayout extends GridLayout {
 
   @Input() debug;
 

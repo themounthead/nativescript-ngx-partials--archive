@@ -1,15 +1,27 @@
 <ActionBar height="0"></ActionBar>
-<Page header="fixed" footer="flow" toolbar="center-right" debug>
+<Page header="fixed" footer="fixed" toolbar="center-right" debug>
   <RowPanel page-header height="80" justifyContent="space-around" alignItems="center">
     <Label text="Header" panel-left></Label>
-    <Label text="Header" panel-middle></Label>
+    <Label text="Header" panel-center></Label>
     <Label text="Header" panel-right></Label>
   </RowPanel>
-  <ColPanel page-content height="900">
-    <Label height="180" text="Content1" panel-top></Label>
-    <Label height="180" text="Content2" panel-top></Label>
-    <Label height="180" text="Content3" panel-bottom></Label>
-  </ColPanel>
+  <GridPanel page-content height="300" width="100%" rows="40, 100, 80" columns="60, *, 100" class="util-debug">
+    <Panel format="box" position="top-left" class="debug">
+      <Label text="Box"></Label>
+    </Panel>
+    <Panel format="cell" position="middle-right" class="debug">
+      <Label text="Cell"></Label>
+    </Panel>
+    <Panel format="rowbar" position="bottom-left" class="debug">
+      <Label text="Cell"></Label>
+    </Panel>
+    <Panel format="cell" position="bottom-right" class="debug">
+      <Label text="Cell"></Label>
+    </Panel>
+    <Panel format="cell" position="top-right" class="debug">
+      <Label text="Cell"></Label>
+    </Panel>
+  </GridPanel>
   <RowPanel page-footer debug height="75">
     <Label text="Test" panel-left></Label>
     <ColPanel panel-right width="80" debug>

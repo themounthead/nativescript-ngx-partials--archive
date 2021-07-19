@@ -1,15 +1,18 @@
-import { Injectable, Inject, forwardRef, Directive, Optional, ContentChild, ElementRef, OnInit, AfterViewInit } from '@angular/core';
+import { Injectable, Inject, forwardRef, Directive, Optional, ContentChild, ElementRef, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 
 import { ActionBar } from 'tns-core-modules/ui/action-bar';
-import { screen, isIOS } from 'tns-core-modules/platform';
-import { Page } from 'tns-core-modules/ui/page';
-import { StackLayout } from 'tns-core-modules/ui/layouts';
+import { screen, isIOS, isAndroid } from 'tns-core-modules/platform';
+import { StackLayout } from 'tns-core-modules/ui/layouts/stack-layout';
+import { ScrollView } from 'tns-core-modules/ui/scroll-view';
 
 import { PartialPageComponent } from './partial-page.component';
 
-import { timer } from 'rxjs';
+import { Observable, Subscription, timer, interval, Subject } from 'rxjs';
 
-import { combineLatest, tap } from 'rxjs/operators';
+import { combineLatest, throttleTime, filter, debounceTime, tap, takeUntil, skipWhile, distinctUntilChanged, delay, skip } from 'rxjs/operators';
+
+import { KeyboardService } from '../keyboard.service';
+import { ScrollService } from '../scroll.service';
 
 const IOS_NOTCH_OFFSET = 46;
 
@@ -39,7 +42,10 @@ export class ActionBarQueryDirective {
 @Directive({
   selector: '[partial-page]',
 })
-export class PartialPageComponentDirective implements AfterViewInit {
+export class PartialPageComponentDirective implements AfterViewInit, OnDestroy {
+
+  private keyboardSubscription: Subscription;
+  private scrollSubscription: Subscription;
 
   @ContentChild('pageView', { read: ElementRef, static: false }) pageView: ElementRef;
   @ContentChild('scrollView', { read: ElementRef, static: false }) scrollView: ElementRef;
@@ -49,8 +55,9 @@ export class PartialPageComponentDirective implements AfterViewInit {
 
   constructor(
     @Inject(forwardRef(() => ActionBarService)) private actionBarService,
+    @Inject(forwardRef(() => KeyboardService)) private keyboardService: KeyboardService,
+    @Inject(forwardRef(() => ScrollService)) private scrollService: ScrollService,
     @Inject(forwardRef(() => PartialPageComponent)) private pageComponent: PartialPageComponent,
-    @Inject(forwardRef(() => Page)) private page: Page,
   ) { }
 
 
@@ -58,38 +65,32 @@ export class PartialPageComponentDirective implements AfterViewInit {
     this.watchViewEmitters();
   }
 
-  private watchViewEmitters(actionBarEvt?) {
-    this.pageComponent.headerReadyEmitter
-      .pipe(
-        tap(),
-        combineLatest(this.pageComponent.footerReadyEmitter),
-        combineLatest(this.pageComponent.pageReadyEmitter),
-      )
-      .subscribe(([[headerEvt, footerEvt], pageEvt]) => {
-        // const actionBar = this.actionBarService.getActionBar();
-        // if (actionBar) {
-        //   actionBar.on('loaded', evt => setTimeout(() => { this.onViewsLoaded(actionBarEvt, headerEvt, footerEvt); }, 100));
-        // } else {
-        //   setTimeout(() => this.onViewsLoaded(actionBarEvt, headerEvt, footerEvt), 100);
-        // }
-        setTimeout(() => this.onViewsLoaded(pageEvt, headerEvt, footerEvt), 100);
-      });
+  ngOnDestroy() {
+    if (this.keyboardSubscription) { this.keyboardSubscription.unsubscribe(); }
+    if (this.scrollSubscription) { this.scrollSubscription.unsubscribe(); }
   }
 
-  private onViewsLoaded(pageEvt, headerEvt, footerEvt) {
+  private watchViewEmitters(actionBarEvt?) {
+    setTimeout(() => this.onViewsLoaded(), 350);
+  }
+
+  private onViewsLoaded() {
     if (!this.scrollView || !this.contentView) { return; }
-    const headerState = this.pageComponent.header;
-    const footerState = this.pageComponent.footer;
-    // const actionBar = (actionBarEvt) ? <StackLayout>actionBarEvt.object : null;
-    const pageView = (pageEvt) ? <StackLayout>pageEvt.object : null;
-    const headerView = (headerEvt) ? <StackLayout>headerEvt.object : null;
-    const footerView = (footerEvt) ? <StackLayout>footerEvt.object : null;
-    const contentView = <StackLayout>this.contentView.nativeElement;
-    const scrollView = <StackLayout>this.scrollView.nativeElement;
     const scale = screen.mainScreen.scale;
 
-    // const pageHeight = this.page.getMeasuredHeight() / scale;
-    // const actionBarHeight = (actionBar) ? actionBar.getMeasuredHeight() / scale : 0;
+    const headerState = this.pageComponent.header;
+    const footerState = this.pageComponent.footer;
+
+    const pageView = <StackLayout>this.pageView.nativeElement;
+    const headerView = <StackLayout>this.headerView.nativeElement;
+    const footerView = <StackLayout>this.footerView.nativeElement;
+    const contentView = <StackLayout>this.contentView.nativeElement;
+    const scrollView = <ScrollView>this.scrollView.nativeElement;
+
+    const actionBar = this.actionBarService.getActionBar();
+
+    const screenHeight = screen.mainScreen.heightDIPs;
+    const actionBarHeight = actionBar ? actionBar.getMeasuredHeight() : 0;
     const pageHeight = pageView.getMeasuredHeight() / scale;
     const headerHeight = (headerView) ? headerView.getMeasuredHeight() / scale : 0;
     const footerHeight = (footerView) ? footerView.getMeasuredHeight() / scale : 0;
@@ -97,14 +98,18 @@ export class PartialPageComponentDirective implements AfterViewInit {
     scrollHeight = (isIOS) ? scrollHeight + IOS_NOTCH_OFFSET : scrollHeight;
     const contentHeight = scrollHeight + headerHeight;
 
+    if (isAndroid) {
+      this.watchKeyboard(pageView, pageHeight);
+      this.watchScroll(scrollView, scrollHeight);
+    }
+
     if (this.pageComponent.height) { pageView.height = this.pageComponent.height; }
     if (this.pageComponent.width) { pageView.width = this.pageComponent.width; }
     if (this.pageComponent.padding) { pageView.padding = this.pageComponent.padding; }
     if (this.pageComponent.margin) { pageView.margin = this.pageComponent.margin; }
 
-
     if (this.pageComponent.isDebug) {
-      console.dir({ headerHeight, footerHeight, pageHeight, scrollHeight, contentHeight });
+      console.dir({ screenHeight, actionBarHeight, pageHeight, headerHeight, footerHeight, contentHeight, scrollHeight });
       this.markViewDebug();
     }
 
@@ -115,6 +120,31 @@ export class PartialPageComponentDirective implements AfterViewInit {
     }
     if (headerState === 'flow' && footerState === 'fixed') { this.contentView.nativeElement.height = contentHeight; }
     if (headerState === 'float' && footerState === 'fixed') { this.contentView.nativeElement.height = contentHeight; }
+  }
+
+  private watchKeyboard(pageView, pageHeight) {
+    this.keyboardService.trackKeyboard();
+    this.keyboardSubscription = this.keyboardService.isKeyboardShowing$()
+      .pipe(throttleTime(150))
+      .subscribe(isShowing => {
+        setTimeout(() => {
+          const pageOffset = pageHeight - this.keyboardService.getKeyboardSize();
+          pageView.height = isShowing ? pageOffset : pageHeight;
+          pageView.verticalAlignment = isShowing ? 'top' : 'stretch';
+        }, 0);
+      });
+  }
+
+  private watchScroll(scrollView: ScrollView, scrollHeight) {
+    this.scrollSubscription = this.scrollService.watchScrollPosition$()
+      .pipe(
+        skip(1),
+        filter(position => position.y > 0)
+      )
+      .subscribe(position => {
+        const offset = position.y + scrollView.verticalOffset;
+        scrollView.scrollToVerticalOffset(offset - scrollHeight / 3, true);
+      });
   }
 
   private markViewDebug() {

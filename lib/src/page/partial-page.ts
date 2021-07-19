@@ -1,16 +1,14 @@
 import { Input, Output, EventEmitter } from '@angular/core';
 
-type TViewConfig = 'fixed' | 'float' | 'flow';
+import { StackLayout } from 'tns-core-modules/ui/layouts/stack-layout';
 
-type TToolbarConfig = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+export type TViewConfig = 'fixed' | 'float' | 'flow';
 
-export class PartialPage {
+export type TToolbarConfig = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+
+export class PartialPage extends StackLayout {
 
   @Input() debug;
-  @Input() width;
-  @Input() height;
-  @Input() padding;
-  @Input() margin;
 
   @Input() header: TViewConfig = 'flow';
   @Input() footer: TViewConfig = 'flow';
@@ -20,6 +18,10 @@ export class PartialPage {
   @Output() pageReadyEmitter = new EventEmitter();
   @Output() headerReadyEmitter = new EventEmitter();
   @Output() footerReadyEmitter = new EventEmitter();
+
+  constructor() { super(); }
+
+  onLoaded() { super.onLoaded(); }
 
   get isDebug() { return this.debug || this.debug === ''; }
 

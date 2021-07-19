@@ -6,14 +6,20 @@ import { registerElement } from 'nativescript-angular/element-registry';
 import { PartialColPanelComponent } from './panel/partial-col-panel.component';
 import { PartialRowPanelComponent } from './panel/partial-row-panel.component';
 import { PartialPageComponent } from './page/partial-page.component';
+import { PartialGridPanelComponent, PartialGridNestedPanelComponent } from './panel/partial-grid-panel.component';
 import { PartialPageComponentDirective, ActionBarQueryDirective, ActionBarService } from './page/partial-page.directives';
 
+registerElement('Page', () => PartialPageComponent);
 registerElement('RowPanel', () => PartialRowPanelComponent);
 registerElement('ColPanel', () => PartialColPanelComponent);
+registerElement('GridPanel', () => PartialGridPanelComponent);
+registerElement('Panel', () => PartialGridNestedPanelComponent);
 
 const COMPONENTS = [
   PartialColPanelComponent,
   PartialRowPanelComponent,
+  PartialGridPanelComponent,
+  PartialGridNestedPanelComponent,
   PartialPageComponent,
 ];
 
