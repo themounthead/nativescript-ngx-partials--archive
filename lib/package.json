@@ -1,6 +1,6 @@
 {
   "name": "nativescript-ngx-partials",
-  "version": "1.2",
+  "version": "1.2.0",
   "description": "NativeScript + Angular Template Partials Library",
   "repository": {
     "type": "git",
